@@ -17,6 +17,7 @@
 #include <openssl/rsa.h>
 #include <openssl/err.h>
 #include <openssl/hmac.h>
+#include <openssl/bn.h>
 
 #include "include/jwk_int.h"
 #include "include/header_int.h"
