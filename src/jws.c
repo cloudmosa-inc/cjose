@@ -389,7 +389,7 @@ static bool _cjose_jws_build_sig_ps(cjose_jws_t *jws, const cjose_jwk_t *jwk, cj
         CJOSE_ERROR(err, CJOSE_ERR_NO_MEMORY);
         goto _cjose_jws_build_sig_ps_cleanup;
     }
-    if (RSA_padding_add_PKCS1_PSS((RSA *)jwk->keydata, em, jws->dig, digest_alg, -1) != 1)
+    if (RSA_padding_add_PKCS1_PSS_mgf1((RSA *)jwk->keydata, em, jws->dig, digest_alg, NULL, -1) != 1)
     {
         CJOSE_ERROR(err, CJOSE_ERR_CRYPTO);
         goto _cjose_jws_build_sig_ps_cleanup;
@@ -905,7 +905,7 @@ static bool _cjose_jws_verify_sig_ps(cjose_jws_t *jws, const cjose_jwk_t *jwk, c
     }
 
     // verify decrypted signature data against PSS encoded digest
-    if (RSA_verify_PKCS1_PSS((RSA *)jwk->keydata, jws->dig, digest_alg, em, -1) != 1)
+    if (RSA_verify_PKCS1_PSS_mgf1((RSA *)jwk->keydata, jws->dig, digest_alg, NULL, em, -1) != 1)
     {
         CJOSE_ERROR(err, CJOSE_ERR_CRYPTO);
         goto _cjose_jws_verify_sig_ps_cleanup;
